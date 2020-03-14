@@ -18,8 +18,6 @@
      <!-- CSS Files -->
     <link href="{{ mix('/admin/css/app.css') }}" rel="stylesheet" type="text/css">
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApORFmzrabpIGVDQJFEBGtMufQCujPeUQ&libraries=places"
-     ></script>
     @yield('styles')
 </head>
 
@@ -28,7 +26,7 @@
     <div id="preloader">
         <div class="canvas">
             <img 
-                src="/img/Plastonspot.png" 
+                src="/img/laravel.png" 
                 alt="logo" 
                 class="loader-logo"
                 style="width: 250px;"

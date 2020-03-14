@@ -11,12 +11,6 @@ a, h1, h2, h3, h4, h5, h6{
 
 // them overide 
 // --------------------
-.light-sidebar .side-navbar ul a, 
-.light-sidebar .side-navbar ul a i {
-    color: #333 ;
-    font-size: 1.3rem ;
-}
-
 .default-sidebar > .side-navbar ul li.active span, 
 .default-sidebar > .side-navbar li ul li a.active {
     color: #e76c90;
@@ -85,4 +79,10 @@ table {
 }
 .authentication-form {
     width: 80%;
+}
+
+.auth-content {
+    padding: 30px 0 !important;
+    overflow-y: auto;
+    height: 100vh;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -13,7 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::whereNotIn('id', [1])->latest()->get();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -56,7 +58,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -68,7 +71,9 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->name = $request->name;
+        return view('admin.users', compact('users'));
     }
 
     /**

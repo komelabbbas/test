@@ -42,6 +42,7 @@ export default {
         async onSubmit() {
             this.errors = null
             try {
+                this.loading = true
                 let data = new FormData();
                 for(let key in this.formData){
                     data.append(key, this.formData[key])
@@ -50,12 +51,43 @@ export default {
 
                 let res = await axios.post('/register', data)
 
-                if(res) {
-                    // toastr['success']('Successfully register user')
+                if(res.data.success) {
+                    await new Noty({
+                        text: 'Successfully register! Email verification link sent in your mail.',
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 3000,
+                        animation: {
+                            open: 'animated bounceInRight', 
+                            close: 'animated bounceOutRight'
+                        }
+                    }).show()
+                    location.reload()
+                    this.formData = {
+                        first_name: '',
+                        last_name: '',
+                        phone: '',
+                        email: '',
+                        password: '',
+                        password_confirmation: '',
+                    }
+                    this.image = ''
+                   
                 }
             } catch (e) {
                 this.errors = e.response.data
-                // toastr['error']('Something wendt wrong')
+                new Noty({
+                    text: 'Can\'t register user',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 3000,
+                    animation: {
+                        open: 'animated bounceInRight', 
+                        close: 'animated bounceOutRight'
+                    }
+                }).show()
+            } finally {
+                this.loading = false
             }
         }
     },

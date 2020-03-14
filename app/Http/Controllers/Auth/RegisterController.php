@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\VerifyUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Notifications\VerifyUser;
+use App\Notifications\VerifyUser as VerifyUserNotifs;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/validate';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -50,7 +52,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'last_name' => 'string|max:255',
             'phone' => 'required|numeric|min:10',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -83,8 +85,74 @@ class RegisterController extends Controller
             $user->save();
         }
 
-        $user->notify(new VerifyUser($user));
+        $verifyUser = VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => str_random(40)
+        ]);
+
+        $user->notify(new VerifyUserNotifs());
 
         return $user;
+    }
+
+    public function registered(Request $request, $user)
+    {
+        \Auth::logout();
+
+        return response()->json([
+            'success'=> true,
+            'user' => $user
+        ]);
+    }
+
+    public function verifyUser($token)
+    {
+        $verifyUser = VerifyUser::whereToken($token)->first();
+
+        if(isset($verifyUser)){
+            $user = $verifyUser->user;
+            
+            if(!$user->verified) {
+                $user->notify(new VerifyUserNotifs());
+                $status = "Resend the verification link. Check your mail.";
+            } else {
+                $status = "Your Email is already verified. You can now login.";
+            }
+        } else {
+            flash()->warning('Sorry your Email cannot be identified.');
+            return redirect('/login');
+        }
+
+        flash()->success($status);
+        return redirect('/login');
+    }
+
+    public function getResendNotification()
+    {
+        \Session::forget('flash_notification');
+        return view('auth.verify');
+    }
+
+    public function resendNotification(Request $request)
+    {
+        $user = User::whereEmail($request->email)->first();
+
+        if(isset($user)) {
+            $verifyUser = $user->verifyUser;
+            
+            if(!$user->verified) {
+                $verifyUser->user->verified = true;
+                $verifyUser->user->save();
+                $status = "Your Email is verified. You can now login.";
+            } else {
+                $status = "Your Email is already verified. You can now login.";
+            }
+        } else {
+            flash()->warning('Sorry your Email cannot be identified.');
+            return redirect('/login');
+        }
+    
+        flash()->success($status);
+        return redirect('/login');
     }
 }

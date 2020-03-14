@@ -12,9 +12,9 @@
                 <div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.dashboard') }}">
+                            {{-- <a href="{{ route('dashboard') }}">
                                 <i class="ti ti-home"></i>
-                            </a>
+                            </a> --}}
                         </li>
                         <li class="breadcrumb-item">
                             Users
@@ -22,13 +22,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="action mt-3 d-flex justify-content-end">
+            {{-- <div class="action mt-3 d-flex justify-content-end">
                 <a 
-                    href="{{ route('admin.users.create') }}"
+                    href="{{ route('users.create') }}"
                     class="btn btn-large btn-gradient-02">
                     Add New User
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="row">
@@ -43,35 +43,21 @@
                         <table id="sorting-table" class="table mb-0">
                             <thead>
                                 <tr>
-                                    <th>User</th>
-                                    <th>Email</th>
-                                    <th>Usernme</th>
-                                    <th>Role</th>
-                                    <th class="text-align-right">Actions</th>
+                                    <th>Index</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email Address</th>
+                                    <th style="width: 40%">Phone Number</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                                @foreach($users as $key => $user)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $user->first_name }}</td>
+                                    <td>{{ $user->last_name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->username }}</td>
-                                    <td>{{ $user->role }}</td>
-                                    <td class="td-actions">
-                                        <a href="{{ route('admin.users.edit', $user->id) }}">
-                                            <i class="la la-edit edit"></i>
-                                        </a>
-                                        {{-- <a href="#">
-                                            <i class="la la-eye eye"></i>
-                                        </a> --}}
-                                        {{-- <a 
-                                            href="{{ route('admin.users.destroy', $user->id) }}" 
-                                            data-confirmation="alert"
-                                            data-token="{{csrf_token()}}" 
-                                            data-message="new {{ $user->name }}" >
-                                            <i class="la la-close delete"></i>
-                                        </a> --}}
-                                    </td>
+                                    <td style="width: 40%">{{ $user->phone }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

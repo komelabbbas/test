@@ -35,4 +35,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(VerifyUser::class);
     }
+
+    public function isAdmin()
+    {
+        return true;
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

@@ -6,7 +6,7 @@
 <div class="container-fluid no-padding h-100" id="app">
     <div class="row flex-row h-100 bg-white">
         <!-- Begin Left Content -->
-        <div class="col-xl-8 col-lg-6 col-md-5 no-padding">
+        <div class="col-xl-7 col-lg-6 col-md-4 no-padding">
             <div class="elisyam-bg background-01">
                 <div class="elisyam-overlay overlay-01"></div>
                 <div class="authentication-col-content mx-auto">
@@ -18,7 +18,7 @@
         </div>
         <!-- End Left Content -->
         <!-- Begin Right Content -->
-        <div class="col-xl-4 col-lg-6 col-md-7 my-auto no-padding">
+        <div class="col-xl-5 col-lg-6 col-md-8 my-auto no-padding auth-content">
             <!-- Begin Form -->
             <user-register inline-template>
                 <div class="authentication-form mx-auto">

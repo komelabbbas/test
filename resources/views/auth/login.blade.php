@@ -24,7 +24,7 @@
             <!-- Begin Form -->
             <div class="authentication-form mx-auto">
                 <h3 class="mb-5 pb-3">Sign In To Laravel Directory</h3>
-                <form class="form-horizontal" method="POST" action="{{ route('login') }}" class="needs-validation">
+                <form method="POST" action="{{ route('login') }}" class="needs-validation">
                     {{ csrf_field() }}
                     <div class="group material-input">
                         <input 
@@ -67,9 +67,6 @@
                                 </label>
                             </div>
                         </div>
-                        {{-- <div class="col text-right">
-                            <a href="pages-forgot-password.html">Forgot Password ?</a>
-                        </div> --}}
                     </div>
                     <div class="sign-btn text-center">
                         <button type="submit" class="btn btn-lg btn-gradient-01">

@@ -15,9 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/user/resend', 'Auth\RegisterController@getResendNotification');
+
+Route::post('/user/resend', 'Auth\RegisterController@resendNotification')->name('verification.resend');
+
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +35,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 */
 
 Route::group([
-    'prefix' => 'admin',
-    'middleware' => ['admin', 'verified'],
+    'middleware' => ['admin'],
 ], function () {
-
-        // Dashboard
-        //----------------------------------
-
-        // Route::get('/dashboard', [
-        //     'as' => 'dashboard', 'uses' => 'DashboardController@index'
-        // ]);
-
-        Route::resource('/users',  'UsersController');
-        
-    });
+    Route::resource('/users',  'UsersController');
+});

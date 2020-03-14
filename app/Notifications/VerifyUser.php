@@ -11,15 +11,14 @@ class VerifyUser extends Notification
 {
     use Queueable;
 
-    protected $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -43,7 +42,11 @@ class VerifyUser extends Notification
     {
         return (new MailMessage)
             ->subject('User Verification')
-            ->markdown('emails.verify');
+            ->markdown('emails.verify', [
+                    'token' => $notifiable->verifyUser->token,
+                    'user' => $notifiable
+                ]
+            );
     }
 
     /**
@@ -54,10 +57,6 @@ class VerifyUser extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-            'token' => $user->verifyUser->token,
-        ];
+        return [ ];
     }
 }

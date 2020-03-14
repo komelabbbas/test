@@ -2,8 +2,8 @@
     <div 
         class="notify d-none" 
         data-driver="notie" 
-        data-notify="{{ Session::get('flash_notification')[0]->level }}" 
-        data-message="{{ Session::get('flash_notification')[0]->message }}" >
+        data-notify="{{ collect(Session::get('flash_notification'))['level'] }}" 
+        data-message="{{ collect(Session::get('flash_notification'))['message'] }}" >
     </div>
 @endif
 
