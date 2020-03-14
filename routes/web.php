@@ -15,6 +15,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+| Route group for Backend prefixed with "admin".
+| To Enable Authentication just remove the comment from Admin Middleware
+|
+*/
+
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => ['admin', 'verified'],
+], function () {
+
+        // Dashboard
+        //----------------------------------
+
+        // Route::get('/dashboard', [
+        //     'as' => 'dashboard', 'uses' => 'DashboardController@index'
+        // ]);
+
+        Route::resource('/users',  'UsersController');
+        
+    });

@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\VerifyUser;
 
 class RegisterController extends Controller
 {
@@ -27,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/validate';
 
     /**
      * Create a new controller instance.
@@ -48,9 +49,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone' => 'required|numeric|min:10',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
     }
 
@@ -62,10 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        if (file_exists($data['profile'])) {
+            $image = $data['profile'];
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('profile/'.$user->id.'/');
+            $image->move($destinationPath, $name);
+            $user->image = $destinationPath.'/'.$name;
+            $user->save();
+        }
+
+        $user->notify(new VerifyUser($user));
+
+        return $user;
     }
 }

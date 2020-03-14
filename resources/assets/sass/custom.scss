@@ -1,0 +1,88 @@
+//  base 
+body {
+    color: #333 !important;
+    font-size: 1.3rem !important;
+}
+
+a, h1, h2, h3, h4, h5, h6{
+    color: #333 ;
+}
+
+
+// them overide 
+// --------------------
+.light-sidebar .side-navbar ul a, 
+.light-sidebar .side-navbar ul a i {
+    color: #333 ;
+    font-size: 1.3rem ;
+}
+
+.default-sidebar > .side-navbar ul li.active span, 
+.default-sidebar > .side-navbar li ul li a.active {
+    color: #e76c90;
+}
+
+.page-header-title {
+    font-size: 2rem;
+}
+
+.page-header .page-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wrapper {
+    height: 100% !important;
+}
+
+
+// button
+.btn {
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08);
+}
+.btn:hover {
+    box-shadow: none;
+}
+
+//  input 
+.form-control {
+    font-size: 1.3rem !important;
+    border-color: rgba(44, 48, 77, 0.3);
+}
+
+.form-control-label {
+    font-weight: bold;
+}
+
+::placeholder {
+    font-size: 1.2rem !important;
+}
+
+// page 
+.page ,
+.page .container-fluid {
+    height: 100%;
+    
+}
+
+.page-content {
+    min-height: calc(100% - 134px);
+}
+
+.page {
+    overflow-x: initial;
+}
+.content {
+    width: 100%;
+}
+
+// style 
+table {
+    color: #5d5386;
+    font-size: 1.2rem;
+}
+.authentication-form {
+    width: 80%;
+}
