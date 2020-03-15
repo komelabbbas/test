@@ -22,10 +22,10 @@
                     </div>
                     <div class="brand-image brand-small">
                         <img 
-                            src="/img/Plastonspot.png" 
+                            src="/img/laravel.png" 
                             alt="logo" 
                             class="logo-small" 
-                            style="width: 200px;"
+                            style="width: 30px;"
                             >
                     </div>
                 </a>
@@ -38,14 +38,22 @@
                 @auth
                 <li class="nav-item dropdown">
                     <a id="user" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
-                        <img src="/img/Sunrise.SUPLIN.png" alt="..." class="avatar rounded-circle">
+                        @if(auth()->user()->image)
+                            <img src="{{ auth()->user()->image }}" alt="..." class="avatar rounded-circle">
+                        @else
+                            <img src="{{ asset('img/user.jpg') }}" alt="..." class="avatar rounded-circle">
+                        @endif
                     </a>
                     <ul aria-labelledby="user" class="user-size dropdown-menu">
                         <li class="welcome">
                             <a href="#" class="edit-profile">
                                 <i class="la la-gear"></i>
                             </a>
-                            <img src="/img/Sunrise.SUPLIN.png" alt="..." class="rounded-circle">
+                            @if(auth()->user()->image)
+                            <img src="{{ auth()->user()->image }}" alt="..." class="rounded-circle">
+                            @else
+                                <img src="{{ asset('img/user.jpg') }}" alt="..." class="rounded-circle">
+                            @endif
                         </li>
                         <li>
                             <a 

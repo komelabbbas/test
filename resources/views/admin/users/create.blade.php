@@ -6,7 +6,10 @@
 @stop
 @section('content')
 <div class="container-fluid">
-    <users inline-template>
+    <user-normal 
+        type="create"
+        inline-template
+    >
         <form @submit.prevent="onSubmit" action="#">
             <!-- Begin Page Header-->
             <div class="row">
@@ -14,168 +17,151 @@
                     <div class="d-flex align-items-center">
                         <h2 class="page-header-title">Users Create</h2>
                     </div>
-                    <div class="page-action mt-4">
+                    <div class="page-action mt-3">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.dashboard') }}">
-                                    <i class="ti ti-home"></i>
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('admin.users.index') }}">Users</a>
+                                <a href="{{ route('profile.index') }}">Users</a>
                             </li>
                             <li class="breadcrumb-item active">Create</li>
                         </ul>
                         <div class="action">
                             <button 
                                 type="submit" 
-                                class="btn btn-success btn-large m-2">
-                                Submit
+                                class="btn btn-success btn-large m-2"
+                            >
+                                Submit 
                             </button>
-                            <a 
-                                href="{{ route('admin.users.index') }}" 
-                                class="btn btn-large btn-gradient-03">
-                                Go Back
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="widget has-shadow">
                 <div class="widget-header bordered no-actions d-flex align-items-center">
-                    <h3>For User Register</h3>
+                    <h3>Update Profile</h3>
                 </div>
                 <div class="widget-body mt-4">
                     <div class="row">
-                        <div class="form-group col-xl-6 row d-flex align-items-center" >
-                            <label class="col-lg-12 form-control-label">
-                                Name 
-                            </label>
-                            <div class="col-lg-12">
-                                <input 
-                                    type="text"
-                                    v-model="name"
-                                    name="name"
-                                    class="form-control" 
-                                    :class="{'is-invalid': $v.name.$error}"
-                                    placeholder="Enter your name"
-                                    @input="$v.name.$touch()"
-                                >
-                                <div v-show="$v.name.$error">
-                                    <span v-show="!$v.name.required" class="text-danger">
-                                        Name is required.
-                                    </span>
+                        <div class="col-xl-6 ">
+                            <div class="form-group row d-flex align-items-center" >
+                                <label class="col-lg-12 form-control-label">
+                                    First Name 
+                                </label>
+                                <div class="col-lg-12">
+                                    <input 
+                                        type="text"
+                                        v-model="formData.first_name"
+                                        name="formData.first_name"
+                                        class="form-control" 
+                                        :class="{'is-invalid': errors.first_name }"
+                                        placeholder="Enter your First Name"
+                                    >
+                                    <div v-if="errors.first_name" class="invalid-feedback">
+                                        @{{ errors.first_name[0] }}
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row d-flex align-items-center" >
+                                <label class="col-lg-12 form-control-label">
+                                    Last Name 
+                                </label>
+                                <div class="col-lg-12">
+                                    <input 
+                                        type="text"
+                                        v-model="formData.last_name"
+                                        name="formData.last_name"
+                                        class="form-control" 
+                                        :class="{'is-invalid': errors.last_name }"
+                                        placeholder="Enter your First Name"
+                                    >
+                                    <div v-if="errors.last_name" class="invalid-feedback">
+                                        @{{ errors.last_name[0] }}
+                                    </div>
+                                </div>
+                            </div>
+                       
+                            <div class="form-group row d-flex align-items-center" >
+                                <label class="col-lg-12 form-control-label">
+                                    Phone
+                                </label>
+                                <div class="col-lg-12">
+                                    <input 
+                                        type="text"
+                                        v-model="formData.phone"
+                                        name="formData.phone"
+                                        class="form-control" 
+                                        :class="{'is-invalid': errors.phone }"
+                                        placeholder="Enter your First Name"
+                                    >
+                                    <div v-if="errors.phone" class="invalid-feedback">
+                                        @{{ errors.phone[0] }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex align-items-center" >
+                                <label class="col-lg-12 form-control-label">
+                                    Email
+                                </label>
+                                <div class="col-lg-12">
+                                    <input 
+                                        type="text"
+                                        v-model="formData.email"
+                                        name="formData.email"
+                                        class="form-control" 
+                                        :class="{'is-invalid': errors.email }"
+                                        placeholder="Enter your First Name"
+                                    >
+                                    <div v-if="errors.email" class="invalid-feedback">
+                                        @{{ errors.email[0] }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row d-flex align-items-center" >
+                                <label class="col-lg-12 form-control-label">
+                                    Password
+                                </label>
+                                <div class="col-lg-12">
+                                    <input 
+                                        type="password"
+                                        v-model="formData.password"
+                                        name="formData.password"
+                                        class="form-control" 
+                                        :class="{'is-invalid': errors.password }"
+                                        placeholder="Enter your First Name"
+                                    >
+                                    <div v-if="errors.password" class="invalid-feedback">
+                                        @{{ errors.password[0] }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 row d-flex align-items-center" >
-                            <label class="col-lg-12 form-control-label">
-                                Username 
-                            </label>
-                            <div class="col-lg-12">
-                                <input 
-                                    type="text"
-                                    v-model="username"
-                                    name="username"
-                                    class="form-control" 
-                                    :class="{'is-invalid': $v.username.$error}"
-                                    placeholder="Enter your username"
-                                    @input="$v.username.$touch()"
+                        <div class="col-xl-6">
+                            <div class="d-flex justify-content-center">
+                                <vue-dropzone 
+                                    ref="myVueDropzone" 
+                                    id="dropzone" 
+                                    :options="dropzoneOptions"
+                                    :use-custom-slot="true"
+                                    @vdropzone-file-added="getFile"
+                                    @vdropzone-removed-file="removedFile"
                                 >
-                                <div v-show="$v.username.$error">
-                                    <span v-show="!$v.username.required" class="text-danger">
-                                        Username is required.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-6 row d-flex align-items-center">
-                            <label class="col-lg-12 form-control-label">
-                                Email
-                            </label>
-                            <div class="col-lg-12">
-                                <input 
-                                    type="email"
-                                    v-model.trim.lazy="email"
-                                    name="email"
-                                    class="form-control"
-                                    :class="{'is-invalid': $v.email.$error}"
-                                    placeholder="Enter your email"
-                                    @input="$v.email.$touch()"
-                                >
-                                </textarea>
-                                <div v-show="$v.email.$error">
-                                    <span v-show="!$v.email.required" class="text-danger">
-                                        Email is required.
-                                    </span>
-                                    <span v-show="!$v.email.email" class="text-danger">
-                                        Please type valid email
-                                    </span>
-                                    <span v-show="!$v.email.isUnique" class="text-danger">
-                                        This email is already registered
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 row d-flex align-items-center" >
-                            <label class="col-lg-12 form-control-label">
-                                Password 
-                            </label>
-                            <div class="col-lg-12">
-                                <input 
-                                    type="password"
-                                    v-model="password"
-                                    name="password"
-                                    :class="{'is-invalid': $v.password.$error}"
-                                    class="form-control" 
-                                    placeholder="Enter your password"
-                                    @input="$v.password.$touch()"
-                                >
-                                <div v-show="$v.password.$error">
-                                    <span v-show="!$v.password.required" class="text-danger">
-                                        Password is required.
-                                    </span>
-                                    <span 
-                                        v-show="!$v.password.minLength" 
-                                        class="text-danger">
-                                        Password must have at least 
-                                        @{{ $v.password.$params.minLength.min }} letters.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-6 row d-flex align-items-center">
-                            <label class="col-lg-12 form-control-label">
-                                Retype Password
-                            </label>
-                            <div class="col-lg-12">
-                                <input 
-                                    type="password"
-                                    v-model="password_confirmation"
-                                    name="password_confirmation"
-                                    class="form-control"
-                                    :class="{'is-invalid': $v.password_confirmation.$error}"
-                                    placeholder="Retype Your Password"
-                                    @input="$v.password_confirmation.$touch()"
-                                >
-                                </textarea>
-                                <div v-show="$v.password_confirmation.$error">
-                                    <span 
-                                        v-show="!$v.password_confirmation.sameAsPassword"
-                                        class="text-danger">
-                                        Password Must be identical.
-                                    </span>
-                                </div>
+                                    <div class="dropzone-custom-content">
+                                        <img v-if="imagePreview" :src="imagePreview" width="160" height="160">
+                                        <h4 class="dropzone-custom-title">
+                                           For update Drag and drop to upload Your photo!
+                                        </h4>
+                                        <div class="subtitle">
+                                            ...or click to select a image from your device
+                                        </div>
+                                    </div>
+                                </vue-dropzone>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-    </users>
+    </user-normal>
 </div>     
 @stop

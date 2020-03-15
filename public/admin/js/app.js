@@ -1070,6 +1070,8 @@ window.Vue = __webpack_require__(37);
  */
 
 Vue.component('user-register', __webpack_require__(41));
+Vue.component('user-profile', __webpack_require__(70));
+Vue.component('user-normal', __webpack_require__(74));
 
 var app = new Vue({
   el: '#app'
@@ -44658,7 +44660,7 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(44)("305bcd26", content, false, {});
+var update = __webpack_require__(44)("4605f466", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -44682,7 +44684,7 @@ exports = module.exports = __webpack_require__(9)(false);
 
 
 // module
-exports.push([module.i, "\n.dz-progress {\n    display: none;\n}\n.dropzone.dz-clickable, \n.dz-image {\n    display: -webkit-box !important;\n    display: -ms-flexbox !important;\n    display: flex !important;\n    -webkit-box-pack: center !important;\n        -ms-flex-pack: center !important;\n            justify-content: center !important;\n}\n\n", ""]);
+exports.push([module.i, "\n.dz-progress {\r\n    display: none;\n}\n.dropzone.dz-clickable, \r\n.dz-image {\r\n    display: -webkit-box !important;\r\n    display: -ms-flexbox !important;\r\n    display: flex !important;\r\n    -webkit-box-pack: center !important;\r\n        -ms-flex-pack: center !important;\r\n            justify-content: center !important;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -45078,8 +45080,28 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'app',
+    props: {
+        count: {
+            type: Number,
+            default: 0
+        }
+    },
     components: {
         vueDropzone: __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default.a
+    },
+    created: function created() {
+        if (!this.count) {
+            new Noty({
+                text: 'First User Register as admin',
+                type: 'warning',
+                layout: 'topRight',
+                timeout: 3000,
+                animation: {
+                    open: 'animated bounceInRight',
+                    close: 'animated bounceOutRight'
+                }
+            }).show();
+        }
     },
     data: function data() {
         return {
@@ -45091,7 +45113,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 password: '',
                 password_confirmation: ''
             },
-            image: null,
+            image: '',
+            init: {
+                loading: false
+            },
             dropzoneOptions: {
                 url: '/#',
                 thumbnailWidth: 150,
@@ -45112,7 +45137,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.image = file;
         },
         removedFile: function removedFile(file, error, xhr) {
-            this.image = null;
+            this.image = '';
         },
         onSubmit: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
@@ -45123,13 +45148,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             case 0:
                                 this.errors = null;
                                 _context.prev = 1;
-
-                                this.loading = true;
                                 data = new FormData();
+
 
                                 for (key in this.formData) {
                                     data.append(key, this.formData[key]);
                                 }
+                                if (!this.count) {
+                                    data.append('role', 'admin');
+                                } else {
+                                    data.append('role', 'user');
+                                }
+
                                 data.append('profile', this.image);
 
                                 _context.next = 8;
@@ -45139,7 +45169,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 res = _context.sent;
 
                                 if (!res.data.success) {
-                                    _context.next = 15;
+                                    _context.next = 16;
                                     break;
                                 }
 
@@ -45156,7 +45186,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 }).show();
 
                             case 12:
-                                location.reload();
+
+                                this.init.loading = false;
+
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 1000);
+
                                 this.formData = {
                                     first_name: '',
                                     last_name: '',
@@ -45167,12 +45203,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 };
                                 this.image = '';
 
-                            case 15:
-                                _context.next = 21;
+                            case 16:
+                                _context.next = 23;
                                 break;
 
-                            case 17:
-                                _context.prev = 17;
+                            case 18:
+                                _context.prev = 18;
                                 _context.t0 = _context['catch'](1);
 
                                 this.errors = _context.t0.response.data;
@@ -45186,19 +45222,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                         close: 'animated bounceOutRight'
                                     }
                                 }).show();
+                                this.init.loading = false;
 
-                            case 21:
-                                _context.prev = 21;
-
-                                this.loading = false;
-                                return _context.finish(21);
-
-                            case 24:
+                            case 23:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 17, 21, 24]]);
+                }, _callee, this, [[1, 18]]);
             }));
 
             function onSubmit() {
@@ -46503,6 +46534,764 @@ module.exports = function (css) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(71)
+}
+var normalizeComponent = __webpack_require__(46)
+/* script */
+var __vue_script__ = __webpack_require__(73)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Profile.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4bdda942", Component.options)
+  } else {
+    hotAPI.reload("data-v-4bdda942", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(72);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(44)("353c3cfb", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4bdda942\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Profile.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4bdda942\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Profile.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(9)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.dz-progress {\r\n    display: none;\n}\n.dropzone.dz-clickable, \r\n.dz-image {\r\n    display: -webkit-box !important;\r\n    display: -ms-flexbox !important;\r\n    display: flex !important;\r\n    -webkit-box-pack: center !important;\r\n        -ms-flex-pack: center !important;\r\n            justify-content: center !important;\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    props: {
+        user: {
+            type: Object,
+            default: null
+        }
+    },
+    components: {
+        vueDropzone: __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default.a
+    },
+    data: function data() {
+        return {
+            formData: {
+                first_name: '',
+                last_name: '',
+                phone: '',
+                email: ''
+            },
+            image: null,
+            imagePreview: null,
+            dropzoneOptions: {
+                url: '/#',
+                thumbnailWidth: 150,
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                uploadprogress: false,
+                maxFiles: 1,
+                maxFilesize: 2,
+                headers: { "My-Awesome-Header": "header value" }
+            },
+            loading: false,
+            errors: []
+        };
+    },
+    created: function created() {
+        this.formData.first_name = this.user.first_name;
+        this.formData.last_name = this.user.last_name;
+        this.formData.phone = this.user.phone;
+        this.formData.email = this.user.email;
+        this.imagePreview = this.user.image;
+    },
+
+    methods: {
+        getFile: function getFile(file) {
+            this.image = file;
+        },
+        removedFile: function removedFile(file, error, xhr) {
+            this.image = null;
+        },
+        removeImage: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var res;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.prev = 0;
+
+                                this.loading = true;
+
+                                _context.next = 4;
+                                return axios.get('/user/profile/image/remove');
+
+                            case 4:
+                                res = _context.sent;
+
+                                if (!res.data.success) {
+                                    _context.next = 9;
+                                    break;
+                                }
+
+                                _context.next = 8;
+                                return new Noty({
+                                    text: 'Successfully removed image',
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 8:
+
+                                this.imagePreview = null;
+
+                            case 9:
+                                _context.next = 15;
+                                break;
+
+                            case 11:
+                                _context.prev = 11;
+                                _context.t0 = _context['catch'](0);
+
+                                this.errors = _context.t0.response.data;
+                                new Noty({
+                                    text: 'Can\'t remove your profile image',
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 15:
+                                _context.prev = 15;
+
+                                this.loading = false;
+                                return _context.finish(15);
+
+                            case 18:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[0, 11, 15, 18]]);
+            }));
+
+            function removeImage() {
+                return _ref.apply(this, arguments);
+            }
+
+            return removeImage;
+        }(),
+        onUpdate: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var data, key, res;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.errors = null;
+                                _context2.prev = 1;
+
+                                this.loading = true;
+                                data = new FormData();
+
+                                for (key in this.formData) {
+                                    data.append(key, this.formData[key]);
+                                }
+
+                                if (this.image) {
+                                    data.append('profile', this.image);
+                                }
+
+                                data.append('_method', 'PUT');
+
+                                _context2.next = 9;
+                                return axios.post('/user/profile/' + this.user.id, data);
+
+                            case 9:
+                                res = _context2.sent;
+
+                                if (!res.data.success) {
+                                    _context2.next = 13;
+                                    break;
+                                }
+
+                                _context2.next = 13;
+                                return new Noty({
+                                    text: 'Successfully update your profile',
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 13:
+                                _context2.next = 19;
+                                break;
+
+                            case 15:
+                                _context2.prev = 15;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.errors = _context2.t0.response.data;
+                                new Noty({
+                                    text: 'Can\'t udpate your profile',
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 19:
+                                _context2.prev = 19;
+
+                                this.loading = false;
+                                return _context2.finish(19);
+
+                            case 22:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 15, 19, 22]]);
+            }));
+
+            function onUpdate() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return onUpdate;
+        }()
+    }
+});
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(75)
+}
+var normalizeComponent = __webpack_require__(46)
+/* script */
+var __vue_script__ = __webpack_require__(77)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4cd6a1fc", Component.options)
+  } else {
+    hotAPI.reload("data-v-4cd6a1fc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(76);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(44)("7736f8f1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4cd6a1fc\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4cd6a1fc\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(9)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.dz-progress {\r\n    display: none;\n}\n.dropzone.dz-clickable, \r\n.dz-image {\r\n    display: -webkit-box !important;\r\n    display: -ms-flexbox !important;\r\n    display: flex !important;\r\n    -webkit-box-pack: center !important;\r\n        -ms-flex-pack: center !important;\r\n            justify-content: center !important;\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_min_css__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    props: {
+        user: {
+            type: Object,
+            default: null
+        }
+    },
+    components: {
+        vueDropzone: __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default.a
+    },
+    data: function data() {
+        return {
+            formData: {
+                first_name: '',
+                last_name: '',
+                phone: '',
+                email: '',
+                password: ''
+            },
+            image: null,
+            imagePreview: null,
+            dropzoneOptions: {
+                url: '/#',
+                thumbnailWidth: 150,
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                uploadprogress: false,
+                maxFiles: 1,
+                maxFilesize: 2,
+                headers: { "My-Awesome-Header": "header value" }
+            },
+            loading: false,
+            errors: []
+        };
+    },
+    created: function created() {
+        if (this.user) {
+            this.formData.first_name = this.user.first_name;
+            this.formData.last_name = this.user.last_name;
+            this.formData.phone = this.user.phone;
+            this.formData.email = this.user.email;
+            this.imagePreview = this.user.image;
+        }
+    },
+
+    methods: {
+        getFile: function getFile(file) {
+            this.image = file;
+        },
+        removedFile: function removedFile(file, error, xhr) {
+            this.image = null;
+        },
+        removeImage: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var res;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.prev = 0;
+
+                                this.loading = true;
+
+                                _context.next = 4;
+                                return axios.get('/user/profile/image/remove');
+
+                            case 4:
+                                res = _context.sent;
+
+                                if (!res.data.success) {
+                                    _context.next = 9;
+                                    break;
+                                }
+
+                                _context.next = 8;
+                                return new Noty({
+                                    text: 'Successfully removed image',
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 8:
+
+                                this.imagePreview = null;
+
+                            case 9:
+                                _context.next = 15;
+                                break;
+
+                            case 11:
+                                _context.prev = 11;
+                                _context.t0 = _context['catch'](0);
+
+                                this.errors = _context.t0.response.data;
+                                new Noty({
+                                    text: 'Can\'t remove your profile image',
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 15:
+                                _context.prev = 15;
+
+                                this.loading = false;
+                                return _context.finish(15);
+
+                            case 18:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[0, 11, 15, 18]]);
+            }));
+
+            function removeImage() {
+                return _ref.apply(this, arguments);
+            }
+
+            return removeImage;
+        }(),
+        onSubmit: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var data, key, res;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.errors = null;
+                                _context2.prev = 1;
+
+                                this.loading = true;
+                                data = new FormData();
+
+                                for (key in this.formData) {
+                                    data.append(key, this.formData[key]);
+                                }
+
+                                if (this.image) {
+                                    data.append('profile', this.image);
+                                }
+
+                                _context2.next = 8;
+                                return axios.post('/users', data);
+
+                            case 8:
+                                res = _context2.sent;
+
+                                if (!res.data.success) {
+                                    _context2.next = 13;
+                                    break;
+                                }
+
+                                _context2.next = 12;
+                                return new Noty({
+                                    text: 'Successfully update your profile',
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 12:
+                                location.href = '/users/' + res.data.user.id + '/edit';
+
+                            case 13:
+                                _context2.next = 19;
+                                break;
+
+                            case 15:
+                                _context2.prev = 15;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.errors = _context2.t0.response.data;
+                                new Noty({
+                                    text: 'Can\'t udpate your profile',
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 19:
+                                _context2.prev = 19;
+
+                                this.loading = false;
+                                return _context2.finish(19);
+
+                            case 22:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 15, 19, 22]]);
+            }));
+
+            function onSubmit() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return onSubmit;
+        }(),
+        onUpdate: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var data, key, res;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.errors = null;
+                                _context3.prev = 1;
+
+                                this.loading = true;
+                                data = new FormData();
+
+                                for (key in this.formData) {
+                                    data.append(key, this.formData[key]);
+                                }
+
+                                if (this.image) {
+                                    data.append('profile', this.image);
+                                }
+
+                                data.append('_method', 'PUT');
+
+                                _context3.next = 9;
+                                return axios.post('/users/' + this.user.id, data);
+
+                            case 9:
+                                res = _context3.sent;
+
+                                if (!res.data.success) {
+                                    _context3.next = 13;
+                                    break;
+                                }
+
+                                _context3.next = 13;
+                                return new Noty({
+                                    text: 'Successfully update user',
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 13:
+                                _context3.next = 19;
+                                break;
+
+                            case 15:
+                                _context3.prev = 15;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.errors = _context3.t0.response.data;
+
+                                new Noty({
+                                    text: 'Can\'t create user',
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    timeout: 3000,
+                                    animation: {
+                                        open: 'animated bounceInRight',
+                                        close: 'animated bounceOutRight'
+                                    }
+                                }).show();
+
+                            case 19:
+                                _context3.prev = 19;
+
+                                this.loading = false;
+                                return _context3.finish(19);
+
+                            case 22:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 15, 19, 22]]);
+            }));
+
+            function onUpdate() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return onUpdate;
+        }()
+    }
+});
 
 /***/ })
 /******/ ]);

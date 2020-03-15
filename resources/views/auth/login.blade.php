@@ -10,7 +10,7 @@
                 <div class="elisyam-overlay overlay-01"></div>
                 <div class="authentication-col-content mx-auto">
                     <h1 class="gradient-text-01">
-                        Welcome To Laravel Development
+                        Welcome To Laravel Development Portal
                     </h1>
                     <span class="description">
                         
@@ -23,7 +23,7 @@
         <div class="col-xl-4 col-lg-6 col-md-7 my-auto no-padding">
             <!-- Begin Form -->
             <div class="authentication-form mx-auto">
-                <h3 class="mb-5 pb-3">Sign In To Laravel Directory</h3>
+                <h3 class="mb-5 pb-3">Sign In To Laravel Development Portal</h3>
                 <form method="POST" action="{{ route('login') }}" class="needs-validation">
                     {{ csrf_field() }}
                     <div class="group material-input">
@@ -38,9 +38,9 @@
                         <span class="bar"></span>
                         <label>Email</label>
                         @if ($errors->has('email'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('email') }}
-                        </div>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('email') }}
+                            </div>
                         @endif
                     </div>
                     <div class="group material-input">

@@ -4,8 +4,28 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
     name: 'app',
+    props: {
+        count: {
+            type: Number,
+            default: 0
+        }
+    },
     components: {
         vueDropzone: vue2Dropzone
+    },
+    created() {
+        if(!this.count) {
+            new Noty({
+                text: 'First User Register as admin',
+                type: 'warning',
+                layout: 'topRight',
+                timeout: 3000,
+                animation: {
+                    open: 'animated bounceInRight', 
+                    close: 'animated bounceOutRight'
+                }
+            }).show()
+        }
     },
     data () {
         return {
@@ -17,7 +37,10 @@ export default {
                 password: '',
                 password_confirmation: '',
             },
-            image: null,
+            image: '',
+            init: {
+                loading: false
+            },
             dropzoneOptions: {
                 url: '/#',
                 thumbnailWidth: 150,
@@ -36,17 +59,25 @@ export default {
         getFile(file) {
             this.image = file
         },
+
         removedFile(file, error, xhr) {
-            this.image = null
+            this.image = ''
         },
+
         async onSubmit() {
             this.errors = null
             try {
-                this.loading = true
                 let data = new FormData();
+
                 for(let key in this.formData){
                     data.append(key, this.formData[key])
                 }
+                if(!this.count) {
+                    data.append('role', 'admin');
+                } else {
+                    data.append('role', 'user');
+                }
+
                 data.append('profile', this.image);
 
                 let res = await axios.post('/register', data)
@@ -62,7 +93,13 @@ export default {
                             close: 'animated bounceOutRight'
                         }
                     }).show()
-                    location.reload()
+
+                    this.init.loading = false
+                    
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000)
+
                     this.formData = {
                         first_name: '',
                         last_name: '',
@@ -72,7 +109,6 @@ export default {
                         password_confirmation: '',
                     }
                     this.image = ''
-                   
                 }
             } catch (e) {
                 this.errors = e.response.data
@@ -86,9 +122,8 @@ export default {
                         close: 'animated bounceOutRight'
                     }
                 }).show()
-            } finally {
-                this.loading = false
-            }
+                this.init.loading = false
+            } 
         }
     },
 }

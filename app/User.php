@@ -45,4 +45,21 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->roles()->whereName('admin')->first() ? true : false;
+    }
+
+    public function hasPermission($permission)
+    { 
+        $role = $this->roles()->whereHas('permissions', function($q) use ($permission){
+            return $q->whereSlug($permission);
+        })->first();
+
+        if($role) {
+            return true;
+        }
+        return false;
+    }
 }

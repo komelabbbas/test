@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\VerifyUser;
+use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -42,6 +43,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $user = User::count();
+        return view('auth.register', compact('user'));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -52,11 +59,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'first_name' => 'required|string|max:255',
-            'last_name' => 'string|max:255',
-            'phone' => 'required|numeric|min:10',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|required|numeric|min:10',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
     }
 
@@ -76,12 +83,20 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        if($data['role'] === 'admin') {
+            $role = Role::whereName('admin')->first();
+            $user->roles()->attach($role);
+        } else {
+            $role = Role::whereName('user')->first();
+            $user->roles()->attach($role);
+        }
+
         if (file_exists($data['profile'])) {
             $image = $data['profile'];
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('profile/'.$user->id.'/');
             $image->move($destinationPath, $name);
-            $user->image = $destinationPath.'/'.$name;
+            $user->image = '/profile/'.$user->id.'/'.$name;
             $user->save();
         }
 
@@ -105,12 +120,12 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function verifyUser($token)
+    public function resendNotification(Request $request)
     {
-        $verifyUser = VerifyUser::whereToken($token)->first();
+        $user = User::whereEmail($request->email)->first();
 
-        if(isset($verifyUser)){
-            $user = $verifyUser->user;
+        if(isset($user)){
+            $verifyUser = $user->verifyUser;
             
             if(!$user->verified) {
                 $user->notify(new VerifyUserNotifs());
@@ -129,20 +144,19 @@ class RegisterController extends Controller
 
     public function getResendNotification()
     {
-        \Session::forget('flash_notification');
         return view('auth.verify');
     }
 
-    public function resendNotification(Request $request)
+    public function verifyUser($token)
     {
-        $user = User::whereEmail($request->email)->first();
-
-        if(isset($user)) {
-            $verifyUser = $user->verifyUser;
+        $verifyUser = VerifyUser::whereToken($token)->first();
+      
+        if(isset($verifyUser)) {
+            $user = $verifyUser->user;
             
             if(!$user->verified) {
-                $verifyUser->user->verified = true;
-                $verifyUser->user->save();
+                $user->verified = true;
+                $user->save();
                 $status = "Your Email is verified. You can now login.";
             } else {
                 $status = "Your Email is already verified. You can now login.";

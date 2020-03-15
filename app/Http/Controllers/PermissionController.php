@@ -14,7 +14,11 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('view_permission', Permission::class);
+
+        $permissions = Permission::latest()->get();
+
+        return view('admin.permission.index', compact('permissions'));
     }
 
     /**

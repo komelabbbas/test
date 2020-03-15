@@ -11,7 +11,7 @@
                 <div class="elisyam-overlay overlay-01"></div>
                 <div class="authentication-col-content mx-auto">
                     <h1 class="gradient-text-01">
-                        Welcome To Laravel
+                        Welcome To Laravel Development Portal
                     </h1>
                 </div>
             </div>
@@ -20,9 +20,9 @@
         <!-- Begin Right Content -->
         <div class="col-xl-5 col-lg-6 col-md-8 my-auto no-padding auth-content">
             <!-- Begin Form -->
-            <user-register inline-template>
+            <user-register :count="{{ $user }}" inline-template>
                 <div class="authentication-form mx-auto">
-                    <h3 class="mb-5">Sign Up To Laravel Directory</h3>
+                    <h3 class="mb-5">Sign Up To Laravel Development Portal</h3>
                     <form @submit.prevent="onSubmit()" action="POST" class="needs-validation">
                         <div class="group material-input">
                         <vue-dropzone 
@@ -149,10 +149,10 @@
                             <button 
                                 type="submit" 
                                 class="btn btn-lg btn-gradient-01"
-                                :disabled="loading"
+                                :disabled="init.loading"
                             >
-                                <span v-if="!loading">
-                                    Sign Up
+                                <span v-if="!init.loading">
+                                    Sign Up  
                                 </span>
                                 <span v-else>Please wait...</span>
                             </button>

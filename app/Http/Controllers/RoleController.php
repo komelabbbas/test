@@ -14,7 +14,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('view_role', Role::class);
+        
+        $roles = Role::latest()->get();
+        
+        return view('admin.roles.index', compact('roles'));
     }
 
     /**

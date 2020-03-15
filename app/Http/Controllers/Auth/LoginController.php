@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/profile';
+    protected $redirectTo = '/user/profile';
 
     /**
      * Create a new controller instance.
@@ -54,10 +54,10 @@ class LoginController extends Controller
 
         $user = User::whereEmail($request->email)->first();
 
-        // if(!$user->verified) {
-        //     flash()->warning('Please verify the activation link sent on email');
-        //     return redirect('/user/resend')->with('email', $user->email);
-        // }
+        if(!$user->verified) {
+            flash()->warning('Please verify the activation link sent on email.');
+            return redirect('/login');
+        }
 
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);

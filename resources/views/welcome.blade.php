@@ -33,10 +33,7 @@
                 justify-content: center;
             }
 
-            .position-ref {
-                position: relative;
-            }
-
+          
             .top-right {
                 position: absolute;
                 right: 10px;
@@ -44,18 +41,21 @@
             }
 
             .content {
-                text-align: center;
+                text-align: left;
+                padding: 20px;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 36px;
+                font-weight: 600;
+                color: white;
             }
 
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 12px;
-                font-weight: 600;
+                font-weight: 900;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -67,7 +67,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())

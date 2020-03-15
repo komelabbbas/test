@@ -22,13 +22,13 @@
                     </ul>
                 </div>
             </div>
-            {{-- <div class="action mt-3 d-flex justify-content-end">
+            <div class="action mt-3 d-flex justify-content-end">
                 <a 
                     href="{{ route('users.create') }}"
                     class="btn btn-large btn-gradient-02">
                     Add New User
                 </a>
-            </div> --}}
+            </div>
         </div>
     </div>
     <div class="row">
@@ -48,6 +48,7 @@
                                     <th>Last Name</th>
                                     <th>Email Address</th>
                                     <th style="width: 40%">Phone Number</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,6 +59,29 @@
                                     <td>{{ $user->last_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td style="width: 40%">{{ $user->phone }}</td>
+                                    <td class="td-actions">
+                                        <a href="{{ route('users.edit', $user->id) }}">
+                                            <i class="la la-edit edit"></i>
+                                        </a>
+                                        @can('delete_user', $user)
+                                        <a
+                                            href="{{ route('users.destroy', $user->id) }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('user-form-{{ $user->id }}').submit();"
+                                        >
+                                            <i class="la la-trash delete"></i>
+                                        </a>
+                                        <form 
+                                            id="user-form-{{ $user->id }}" 
+                                            action="{{ route('users.destroy', $user->id) }}" 
+                                            method="POST" 
+                                            style="display: none;"
+                                        >
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                        </form>
+                                        @endcan
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
