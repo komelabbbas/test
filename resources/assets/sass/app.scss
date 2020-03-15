@@ -1,9 +1,23 @@
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// theme
+@import '../../theme/vendors/css/base/bootstrap.css';
+@import '../../theme/vendors/css/base/elisyam-1.5.css';
+@import '../../theme/css/animate/animate.css';
+@import '../../theme/css/owl-carousel/owl.carousel.css';
+@import '../../theme/css/owl-carousel/owl.theme.css';
+@import '../../theme/css/leaflet/leaflet.css';
+@import "../../theme/css/bootstrap-select/bootstrap-select.css";
+@import "../../theme/css/datatables/datatables.css";
+
+// plugins
+@import '../../plugins/clockpicker/clockpicker';
+
+// elements 
+@import '../../plugins/element/buttons.css';
+@import '../../plugins/element/image-caption.css';
+
+// custom
+@import 'custom';

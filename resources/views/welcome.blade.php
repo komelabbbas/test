@@ -19,6 +19,8 @@
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
+                background-image: url('/img/background/main.png');
+                background-size: cover;
             }
 
             .full-height {
@@ -31,10 +33,7 @@
                 justify-content: center;
             }
 
-            .position-ref {
-                position: relative;
-            }
-
+          
             .top-right {
                 position: absolute;
                 right: 10px;
@@ -42,18 +41,21 @@
             }
 
             .content {
-                text-align: center;
+                text-align: left;
+                padding: 20px;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 36px;
+                font-weight: 600;
+                color: white;
             }
 
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 12px;
-                font-weight: 600;
+                font-weight: 900;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -65,7 +67,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
@@ -79,16 +81,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Welcome To Laravel Development portal
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
             </div>
         </div>
     </body>

@@ -15,7 +15,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 
+        'last_name', 
+        'phone',
+        'email',
+        'password',
     ];
 
     /**
@@ -26,4 +30,36 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function verifyUser()
+    {
+        return $this->hasOne(VerifyUser::class);
+    }
+
+    public function isAdmin()
+    {
+        return true;
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->roles()->whereName('admin')->first() ? true : false;
+    }
+
+    public function hasPermission($permission)
+    { 
+        $role = $this->roles()->whereHas('permissions', function($q) use ($permission){
+            return $q->whereSlug($permission);
+        })->first();
+
+        if($role) {
+            return true;
+        }
+        return false;
+    }
 }
