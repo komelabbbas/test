@@ -7,7 +7,7 @@
     </div>
 @endif
 
-@if($errors->any())
+@if(\Session::get('errors') && $errors->any())
     <div 
         class="notify hidden-xs-up" 
         data-driver="notie" 
