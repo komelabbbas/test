@@ -11,7 +11,7 @@
                     <h1>404</h1>
                     <h2>This page cannot be found! </h2>
                     <p class="text-white">But we have lots of other pages for you to see. </p>
-                    <a href="{{ route('login') }}" class="btn btn-shadow">
+                    <a href="{{ route('profile.index') }}" class="btn btn-shadow">
                         Go Back
                     </a>
                 </div> 

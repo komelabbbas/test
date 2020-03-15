@@ -10,7 +10,7 @@
                 <div class="error-container mx-auto text-center">
                     <h1>500</h1>
                     <h2>Internal server error! </h2>
-                    <a href="{{ route('login') }}" class="btn btn-shadow">
+                    <a href="{{ route('profile.index') }}" class="btn btn-shadow">
                         Go Back
                     </a>
                 </div>

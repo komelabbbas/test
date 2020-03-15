@@ -11,7 +11,7 @@
                     <span></span>
                 </a>
                 <!-- End Toggle -->
-                <a href="{{ route('home') }}" class="navbar-brand ml-4">
+                <a href="{{ route('profile.index') }}" class="navbar-brand ml-4">
                     <div class="brand-image brand-big">
                         <img 
                             src="/img/laravel.png" 

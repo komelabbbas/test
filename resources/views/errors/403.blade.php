@@ -10,7 +10,7 @@
                 <div class="error-container mx-auto text-center">
                     <h1>403</h1>
                     <h2>Forbidden Error! </h2>
-                    <a href="{{ route('login') }}" class="btn btn-shadow">
+                    <a href="{{ route('profile.index') }}" class="btn btn-shadow">
                         Go Back
                     </a>
                 </div>
